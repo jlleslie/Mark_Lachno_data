@@ -69,5 +69,27 @@ cyto.ma<-as.matrix(cyto.1)
 library(gplots)
 heatmap.2(cyto.ma, cexCol=.8, scale = "column", col=bluered, srtCol= 0,
           density.info="none", trace="none", key.xlab="Fold change",  xlab = "Comparisons",ylab =" cytokine genes",  main="Cytokine expression across monocolonized mice")
+##########################
 
+allmice<-read.table(file="Mark_Epithelial_Norm_dCT_individmice.txt", header=T)
+row.names(allmice)<-allmice$Genes
+allmice<-allmice[,2:20]
+allmice$mean_untreated<-rowMeans(allmice[,1:5])
+allmice[14,20]<-mean(13.10, 13.80)
+allmice<-allmice[6:20]
+
+for (i in 1:ncol(allmice)){
+  allmice[,i]<- allmice[,i]/allmice$mean_untreated
+}
+library(gplots)
+allmice<-allmice[,1:14]
+cipd4<-allmice[,1:10]
+cipd4.ma<-as.matrix(cipd4)
+heatmap.2(cipd4.ma, cexCol=.8, scale = "column", col=bluered, srtCol= 45,
+          density.info="none", trace="none", key.xlab="Fold change",  xlab = "Comparisons",ylab ="epithelial genes",  main="Epithelial gene expression")
+
+
+allmice.ma<-as.matrix(allmice)
+heatmap.2(allmice.ma, cexCol=.8, scale = "column", col=bluered, srtCol= 45,
+          density.info="none", trace="none", key.xlab="Fold change",  xlab = "Comparisons",ylab ="epithelial genes",  main="Epithelial gene expression")
 
